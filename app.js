@@ -17,12 +17,12 @@ const circleDiv = document.createElement("div");
 circleDiv.style.textAlign = "center";
 sliderContainer.appendChild(circleDiv);
 let i;
-let test;
+let dot;
 for (i = 0; i < numberOfItems; i++) { 
-    test = document.createElement("button");
-    test.className = "dot";
-    test.id = i;
-    circleDiv.appendChild(test);
+    dot = document.createElement("button");
+    dot.className = "dot";
+    dot.id = i;
+    circleDiv.appendChild(dot);
 }
 
 circleDiv.addEventListener("click", (e)=>{
