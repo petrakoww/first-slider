@@ -49,16 +49,7 @@ circleDiv.addEventListener("click", (e)=>{
     
     const {id} = e.target;
     
-     if (id) {
-        // const test = imagesArray.reduce((priv, curr, index)=>{
-        //     if (index <= id) {
-        //         let test2 = priv+curr;
-        //         return test2;
-        //     }else{
-        //         return priv;
-        //     }        
-        // }, 0);
-            
+     if (id) {            
         for (let i = 0; i < id; i++) {
             transitionSize+=imagesArray[i];
         }
@@ -83,25 +74,20 @@ nextBtn.addEventListener("click", () =>{
     currentImageSize = imagesArray[counter];
     counter++;
     
-    // currentSize+=currentImageSize;
     transitionSize+=currentImageSize;
     if (counter >= i) {
         counter = 0;
-        //currentSize = 0;
         transitionSize = 0;
     }
 
-    slider.style.transform = "translateX(" + (-transitionSize/*currentSize*/) + "px)";
+    slider.style.transform = "translateX(" + (-transitionSize) + "px)";
     
 
     
-    //activeButton[0].style.backgroundColor = "#red";
     
-        // activeButton[id].classList.toggle("active");
         if (counter) {
             activeButton[counter].style.backgroundColor = "red";
             activeButton[counter-1].style.backgroundColor = "#bbb";
-            //console.log(activeButton[counter].id);
             
         }else if (counter == 0) {
             activeButton[0].style.backgroundColor = "red";
@@ -115,15 +101,13 @@ prevBtn.addEventListener("click", () =>{
     currentImageSize = imagesArray[counter-1];
     counter--;
 
-    // currentSize-=currentImageSize;
     transitionSize-=currentImageSize;
     if (counter < 0) {
         counter = i - 1;
-        // currentSize = maxSize;
         transitionSize = maxSize;
     }
     
-    slider.style.transform = "translateX(" + (-transitionSize/*currentSize*/) + "px)";
+    slider.style.transform = "translateX(" + (-transitionSize) + "px)";
 
 
 
@@ -134,13 +118,6 @@ prevBtn.addEventListener("click", () =>{
     if (counter < i-1) {
         activeButton[counter+1].style.backgroundColor = "#bbb";
     }
-        
-    
-    // else if (counter == 0) {
-    //    activeButton[0].style.backgroundColor = "red";
-    //     activeButton[i-1].style.backgroundColor = "#bbb";
-    // }
-
 
 });
 
