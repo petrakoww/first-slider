@@ -6,8 +6,24 @@ const nextBtn = document.getElementById("nextBtn");
 const prevBtn = document.getElementById("prevBtn");
 
 let counter = 0;
-const size = carouselImages[0].clientWidth;
+let size = carouselImages[0].clientWidth;
 
+/////////////////////////////////////////////////////////////////////////////////////
+let imagesArray = [];
+for (let i = 0; i < carouselImages.length; i++) {
+    imagesArray.push(carouselImages[i].clientWidth);
+}
+let currentSize = 0;
+let currentImageSize = 0;
+let maxSize = 0;
+let j = 0;
+for (j = 0; j < imagesArray.length; j++) {
+    
+    maxSize += carouselImages[j].clientWidth;
+}
+maxSize -= carouselImages[j-1].clientWidth;
+let transitionSize = 0;//
+/////////////////////////////////////////////////////////////////////////////////////
 
 //dynamic circle
 const sliderContainer = document.querySelector('.carousel-container');
@@ -24,30 +40,115 @@ for (i = 0; i < numberOfItems; i++) {
     dot.id = i;
     circleDiv.appendChild(dot);
 }
-
+//////////////////////////////////////////////////////////////////////////////////
+let activeButton = document.querySelectorAll(".dot");
+activeButton[0].style.backgroundColor = "red";
+//////////////////////////////////////////////////////////////////////////////////
 circleDiv.addEventListener("click", (e)=>{
+    transitionSize = 0;
+    
     const {id} = e.target;
-
-    if (id) {
-        slider.style.transform = "translateX(" + (-size * + id) + "px)";
+    
+     if (id) {            
+        for (let i = 0; i < id; i++) {
+            transitionSize+=imagesArray[i];
+        }
+        slider.style.transform = "translateX(" + (-transitionSize) + "px)";
     }
-    counter = id;
+    
+counter = id;
+
+for (let i = 0; i <= numberOfItems-1; i++) {
+    activeButton[i].style.backgroundColor = "#bbb";
+}
+if (counter) {
+    activeButton[counter].style.backgroundColor = "red";
+}
+
 })
+
+
 
 //dynamic arrows
 nextBtn.addEventListener("click", () =>{
+    currentImageSize = imagesArray[counter];
     counter++;
+    
+    transitionSize+=currentImageSize;
     if (counter >= i) {
         counter = 0;
+        transitionSize = 0;
     }
-    slider.style.transform = "translateX(" + (-size * counter) + "px)";
+
+    slider.style.transform = "translateX(" + (-transitionSize) + "px)";
+    
+
+    
+    
+        if (counter) {
+            activeButton[counter].style.backgroundColor = "red";
+            activeButton[counter-1].style.backgroundColor = "#bbb";
+            
+        }else if (counter == 0) {
+            activeButton[0].style.backgroundColor = "red";
+            activeButton[i-1].style.backgroundColor = "#bbb";
+        }
+
 });
 
 
 prevBtn.addEventListener("click", () =>{
+    currentImageSize = imagesArray[counter-1];
     counter--;
+
+    transitionSize-=currentImageSize;
     if (counter < 0) {
         counter = i - 1;
+        transitionSize = maxSize;
     }
-    slider.style.transform = "translateX(" + (-size * counter) + "px)";
+    
+    slider.style.transform = "translateX(" + (-transitionSize) + "px)";
+
+
+
+    activeButton[counter].style.backgroundColor = "red";
+    if (activeButton[counter].id != 0) {
+        activeButton[0].style.backgroundColor = "#bbb";
+    }
+    if (counter < i-1) {
+        activeButton[counter+1].style.backgroundColor = "#bbb";
+    }
+
 });
+
+
+//arrow keys
+window.addEventListener("keydown", (e) => {
+    if (e.key === "ArrowLeft") {
+        prevBtn.click();
+    }
+    else if (e.key === "ArrowRight") {
+        nextBtn.click();
+    }
+});
+
+
+//draggable
+let pressed = false;
+slider.addEventListener("mousedown", ()=>{
+    pressed = true;
+    slider.style.cursor = "grabbing";
+})
+slider.addEventListener("mouseenter", ()=>{
+    slider.style.cursor = "grab";
+})
+slider.addEventListener("mouseup", ()=>{
+    slider.style.cursor = "grab";
+})
+window.addEventListener("mouseup", ()=>{
+    pressed = false;
+})
+//mouse move >x, y => move; set counter
+
+
+//active circle
